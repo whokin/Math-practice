@@ -37,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void startSettingsActivity(){
-        Intent intent = new Intent(this, SettingsActivity.class);
+    private void startGameActivity(){
+        Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }
 
-    private void startGameActivity(){
-        Intent intent = new Intent(this, GameActivity.class);
+    private void startSettingsActivity(){
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 }
