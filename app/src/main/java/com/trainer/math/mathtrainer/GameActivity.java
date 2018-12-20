@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,6 +22,8 @@ public class GameActivity extends AppCompatActivity {
     Button btnCheck;
     Button btnShowAnswer;
     Button btnNextQuestion;
+
+    Vibrator vibrator;
 
     int randX;
     int randY;
@@ -84,7 +87,9 @@ public class GameActivity extends AppCompatActivity {
                 if (answerFound)
                     updateQuestion();
                 else
-                    Toast.makeText(GameActivity.this, "Answer not found yet.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GameActivity.this,
+                            "Answer not found yet.",
+                            Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -104,6 +109,9 @@ public class GameActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             etxtAnswer.setBackgroundColor(Color.RED);
             answerFound = false;
+            if(vibrator != null && vibrator.hasVibrator()){
+                vibrator.vibrate(500);
+            }
         }
     }
 
@@ -122,6 +130,7 @@ public class GameActivity extends AppCompatActivity {
         btnCheck = findViewById(R.id.btn_check);
         btnShowAnswer = findViewById(R.id.btn_show_answer);
         btnNextQuestion = findViewById(R.id.btn_new);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
     private void updateQuestion() {
