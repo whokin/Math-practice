@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Math Trainer</string>
+    <string name="tables">Multiplication Table</string>
+    <string name="x1">x1</string>
+    <string name="x2">x2</string>
+    <string name="x3">x3</string>
+    <string name="x4">x4</string>
+    <string name="x5">x5</string>
+    <string name="x6">x6</string>
+    <string name="x7">x7</string>
+    <string name="x8">x8</string>
+    <string name="x9">x9</string>
+    <string name="x10">x10</string>
+    <string name="x11">x11</string>
+    <string name="x12">x12</string>
+</resources>

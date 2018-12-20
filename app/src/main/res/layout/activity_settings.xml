@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <TextView
+        android:id="@+id/txt_tables"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/tables"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_tables">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/btn_mul1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x1"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_mul2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x2"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_mul3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x3"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_mul4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x4"
+                android:textAllCaps="false" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/btn_mul5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x5"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_mul6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x6"
+
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_mul7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x7"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_mul8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x8"
+                android:textAllCaps="false" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/btn_mul9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x9"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_mul10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x10"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_mul11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x11"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_mul12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/x12"
+                android:textAllCaps="false" />
+        </TableRow>
+
+    </TableLayout>
+
+</android.support.constraint.ConstraintLayout>
