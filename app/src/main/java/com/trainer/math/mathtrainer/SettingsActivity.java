@@ -1,17 +1,31 @@
 package com.trainer.math.mathtrainer;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.checkerframework.checker.formatter.FormatUtil;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+import io.reactivex.internal.schedulers.ExecutorScheduler;
+
 
 public class SettingsActivity extends AppCompatActivity {
 
+    AppDatabase db;
     List<Button> buttonList = new ArrayList<>();
     Button btnBack;
 
@@ -20,17 +34,35 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        // Hooking up the Database
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "settings").build();
+
         // Lets populate the list with all button attributes
         populateList();
 
-        for(int i = 0; i < buttonList.size(); i++)
-        {
+
+        // Gets the current Settings on the database
+        getDataFromDatabase();
+
+        for (int i = 0; i < buttonList.size(); i++) {
             final int selected = i;
             buttonList.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CharSequence buttonText = buttonList.get(selected).getText();
-                    Toast.makeText(SettingsActivity.this, "You've selected "+ buttonText, Toast.LENGTH_SHORT).show();
+                    Button thisButton = buttonList.get(selected);
+                    CharSequence buttonText = thisButton.getText();
+                    Toast.makeText(SettingsActivity.this, "You've selected " + buttonText, Toast.LENGTH_SHORT).show();
+                    thisButton.setBackgroundColor(Color.GREEN);
+
+                    final Settings settings = new Settings();
+                    settings.setSettingName(buttonText.toString());
+                    settings.setPressed(true);
+                    settings.setPosition(selected);
+
+                    Executor executor = Executors.newSingleThreadExecutor();
+                    executor.execute(() -> {
+                        db.settingsInterface().insertAll(settings);
+                    });
                 }
             });
         }
@@ -48,6 +80,38 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+
+    private void getDataFromDatabase() {
+
+
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        executor.execute(() -> {
+            // Getting the Database current saved info
+            List<Settings> dataSaved = new ArrayList<>();
+            dataSaved = db.settingsInterface().getAllSettings();
+
+            // if its empty just return
+            if(dataSaved.size() == 0)
+            {
+                return;
+            }
+
+            // Iterating the Settings and setting them green to indicate to user that they are enabled
+            for(int i = 0; i<dataSaved.size(); i++)
+            {
+                Settings currentSetting = dataSaved.get(i);
+                if(currentSetting.getSettingName() == buttonList.get(currentSetting.getPosition()).getText())
+                {
+                    buttonList.get(currentSetting.getPosition()).setBackgroundColor(Color.GREEN);
+                }
+
+            }
+        });
+
+
+
+    }
     private void populateList() {
 
         // Generating the References for each button
@@ -79,3 +143,7 @@ public class SettingsActivity extends AppCompatActivity {
         buttonList.add(x12);
     }
 }
+
+
+
+

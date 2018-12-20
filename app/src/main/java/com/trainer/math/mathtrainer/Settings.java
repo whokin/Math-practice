@@ -16,4 +16,40 @@ public class Settings {
 
     @ColumnInfo(name = "status")
     private Boolean isPressed;
+
+    @ColumnInfo(name = "position")
+    private int position;
+
+
+    public int getPosition(){
+        return position;
+    }
+
+    public void setPosition(int position){
+        this.position = position;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getSettingName() {
+        return settingName;
+    }
+
+    public void setSettingName(String settingName) {
+        this.settingName = settingName;
+    }
+
+    public Boolean getPressed() {
+        return isPressed;
+    }
+
+    public void setPressed(Boolean pressed) {
+        isPressed = pressed;
+    }
 }
