@@ -2,6 +2,8 @@ package com.trainer.math.mathtrainer;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,19 +11,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class GameActivity extends AppCompatActivity {
     TextView txtEquation;
     EditText etxtAnswer;
     Button btnCheck;
     Button btnShowAnswer;
 
-    // TODO: use random values
-    Equation equation = new Equation(4, 5);
+    int randX;
+    int randY;
+    Equation equation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        randX =  new Random().nextInt(((12-2)+1) + 2);
+        randY =  new Random().nextInt(((12-2)+1) + 2);
+        equation = new Equation(randX, randY);
+
 
         // Populate references for elements
         populateReference();
@@ -32,20 +41,32 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 equation.multiply();
-                final String answer = Integer.toString(equation.getResult());
-                if (etxtAnswer.getText().toString().equals(answer)) {
+                if (etxtAnswer.getText().toString().equals(equation.getStrResult())) {
                     Toast.makeText(GameActivity.this,
                             "Correct!",
                             Toast.LENGTH_SHORT).show();
+                    etxtAnswer.setBackgroundColor(Color.GREEN);
                 }
                 else{
                     Toast.makeText(GameActivity.this,
                             "Try again!",
                             Toast.LENGTH_SHORT).show();
+                    etxtAnswer.setBackgroundColor(Color.RED);
                 }
             }
         });
+
+        btnShowAnswer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = "The answer is " + equation.getStrResult();
+                etxtAnswer.setText(equation.getStrResult());
+                Toast.makeText(GameActivity.this, message, Toast.LENGTH_SHORT).show();
+                etxtAnswer.setBackgroundColor(Color.GREEN);
+            }
+        });
     }
+
 
     private void questionDisplay() {
         String x = Integer.toString(equation.getX());
@@ -62,5 +83,9 @@ public class GameActivity extends AppCompatActivity {
         btnShowAnswer = findViewById(R.id.btn_show_answer);
     }
 
+    private void randQuestion(){
+        randX = new Random().nextInt(((12-2)+1) + 2);
+        randY = new Random().nextInt(((12-2)+1) + 2);
 
+    }
 }

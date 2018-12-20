@@ -17,4 +17,7 @@
     <string name="equation">Equation</string>
     <string name="enter_your_answer">Enter your answer</string>
     <string name="save">Save</string>
+    <string name="next">Next</string>
+    <string name="show_answer">Show Answer</string>
+    <string name="check">Check</string>
 </resources>

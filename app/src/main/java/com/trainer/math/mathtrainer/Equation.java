@@ -30,6 +30,10 @@ public class Equation {
         return result;
     }
 
+    public String getStrResult(){
+        return Integer.toString(getResult());
+    }
+
     public int multiply() {
         setResult(getX() * getY());
         return result;
