@@ -28,4 +28,6 @@
     <string name="multiplication">Multiplication:</string>
     <string name="x2_to_x100">x2 to x100</string>
     <string name="x2_to_x12">x2 to x12</string>
+    <string name="select_difficulty">Select Difficulty</string>
+    <string name="clear_settings">Clear Settings</string>
 </resources>
