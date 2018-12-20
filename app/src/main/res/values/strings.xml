@@ -24,4 +24,8 @@
     <string name="answer">Answer:</string>
     <string name="math_up">Math up!</string>
     <string name="settings">Settings</string>
+    <string name="level">Level:</string>
+    <string name="multiplication">Multiplication:</string>
+    <string name="x2_to_x100">x2 to x100</string>
+    <string name="x2_to_x12">x2 to x12</string>
 </resources>
