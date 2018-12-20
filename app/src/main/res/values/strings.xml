@@ -13,4 +13,7 @@
     <string name="x10">x10</string>
     <string name="x11">x11</string>
     <string name="x12">x12</string>
+    <string name="math_time">Math time!</string>
+    <string name="equation">Equation</string>
+    <string name="enter_your_answer">Enter your answer</string>
 </resources>

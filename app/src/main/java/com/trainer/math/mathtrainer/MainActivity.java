@@ -8,6 +8,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button btnGame;
     Button btnSettings;
 
     @Override
@@ -16,20 +17,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Assigning button on onCreate
+        btnGame = (Button) findViewById(R.id.btn_start);
         btnSettings = (Button) findViewById(R.id.btn_settings);
 
 
         // Button listener to call start other activity action
+        btnGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startGameActivity();
+            }
+        });
+
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity();
+                startSettingsActivity();
             }
         });
     }
 
-    private void startActivity(){
+    private void startSettingsActivity(){
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private void startGameActivity(){
+        Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }
 }
