@@ -16,4 +16,5 @@
     <string name="math_time">Math time!</string>
     <string name="equation">Equation</string>
     <string name="enter_your_answer">Enter your answer</string>
+    <string name="save">Save</string>
 </resources>
