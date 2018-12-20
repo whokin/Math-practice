@@ -25,6 +25,7 @@ public class GameActivity extends AppCompatActivity {
     int randX;
     int randY;
     Equation equation;
+    boolean answerFound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,23 +80,30 @@ public class GameActivity extends AppCompatActivity {
         btnNextQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateQuestion();
+                validateAnswer();
+                if (answerFound)
+                    updateQuestion();
+                else
+                    Toast.makeText(GameActivity.this, "Answer not found yet.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void validateAnswer() {
+        // Validates the answer compared to the input field
         equation.multiply();
         if (etxtAnswer.getText().toString().equals(equation.getStrResult())) {
             Toast.makeText(GameActivity.this,
                     "Correct!",
                     Toast.LENGTH_SHORT).show();
             etxtAnswer.setBackgroundColor(Color.GREEN);
+            answerFound = true;
         } else {
             Toast.makeText(GameActivity.this,
                     "Try again!",
                     Toast.LENGTH_SHORT).show();
             etxtAnswer.setBackgroundColor(Color.RED);
+            answerFound = false;
         }
     }
 
@@ -117,6 +125,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updateQuestion() {
+        // Randomizes two new integers and updates the question text display
         randX = new Random().nextInt(12 - 2) + 2;
         randY = new Random().nextInt(12 - 2) + 2;
         equation = new Equation(randX, randY);

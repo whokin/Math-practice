@@ -8,6 +8,7 @@ public class Equation {
     public Equation(int x, int y) {
         this.x = x;
         this.y = y;
+        this.result = x * y;
     }
 
     public int getX() {
