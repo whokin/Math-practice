@@ -18,6 +18,7 @@ public class GameActivity extends AppCompatActivity {
     EditText etxtAnswer;
     Button btnCheck;
     Button btnShowAnswer;
+    Button btnNextQuestion;
 
     int randX;
     int randY;
@@ -35,8 +36,10 @@ public class GameActivity extends AppCompatActivity {
         // Populate references for elements
         populateReference();
 
+        // Display the question
         questionDisplay();
 
+        // Check the answer on click: green if right, red if wrong
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +59,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        // Show the answer when clicked
         btnShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,10 +69,18 @@ public class GameActivity extends AppCompatActivity {
                 etxtAnswer.setBackgroundColor(Color.GREEN);
             }
         });
+
+        // Update the question
+        btnNextQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateQuestion();
+            }
+        });
     }
 
-
     private void questionDisplay() {
+        // Displays the question on the text field
         String x = Integer.toString(equation.getX());
         String y = Integer.toString(equation.getY());
         String question = x + " * " + y + " = ?";
@@ -81,11 +93,15 @@ public class GameActivity extends AppCompatActivity {
         etxtAnswer = findViewById(R.id.etxt_answer);
         btnCheck = findViewById(R.id.btn_check);
         btnShowAnswer = findViewById(R.id.btn_show_answer);
+        btnNextQuestion = findViewById(R.id.btn_new);
     }
 
-    private void randQuestion(){
+    private void updateQuestion(){
         randX = new Random().nextInt(((12-2)+1) + 2);
         randY = new Random().nextInt(((12-2)+1) + 2);
-
+        equation = new Equation(randX, randY);
+        questionDisplay();
+        etxtAnswer.setText("");
+        etxtAnswer.setBackgroundColor(0x00000000);
     }
 }
