@@ -20,4 +20,8 @@
     <string name="next">Next</string>
     <string name="show_answer">Show Answer</string>
     <string name="check">Check</string>
+    <string name="math_trainer">Math Trainer</string>
+    <string name="answer">Answer:</string>
+    <string name="math_up">Math up!</string>
+    <string name="settings">Settings</string>
 </resources>
