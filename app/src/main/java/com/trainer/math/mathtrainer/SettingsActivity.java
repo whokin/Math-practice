@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import org.checkerframework.checker.formatter.FormatUtil;
@@ -15,19 +17,22 @@ import org.checkerframework.checker.formatter.FormatUtil;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-import io.reactivex.internal.schedulers.ExecutorScheduler;
 
 
 public class SettingsActivity extends AppCompatActivity {
 
     AppDatabase db;
-    List<Button> buttonList = new ArrayList<>();
+    List<CheckBox> checkBoxList = new ArrayList<>();
     Button btnBack;
+    Button btnClear;
+
+
+    Map<Button,Settings> listSettingsMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         // Hooking up the Database
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "settings").build();
-
+        db = AppDatabase.getAppDatabase(this);
+        //final Settings settings = new Settings();
         // Lets populate the list with all button attributes
         populateList();
 
@@ -44,38 +49,63 @@ public class SettingsActivity extends AppCompatActivity {
         // Gets the current Settings on the database
         getDataFromDatabase();
 
-        for (int i = 0; i < buttonList.size(); i++) {
-            final int selected = i;
-            buttonList.get(i).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Button thisButton = buttonList.get(selected);
-                    CharSequence buttonText = thisButton.getText();
-                    Toast.makeText(SettingsActivity.this, "You've selected " + buttonText, Toast.LENGTH_SHORT).show();
-                    thisButton.setBackgroundColor(Color.GREEN);
 
-                    final Settings settings = new Settings();
-                    settings.setSettingName(buttonText.toString());
-                    settings.setPressed(true);
-                    settings.setPosition(selected);
-
-                    Executor executor = Executors.newSingleThreadExecutor();
-                    executor.execute(() -> {
-                        db.settingsInterface().insertAll(settings);
-                    });
-                }
-            });
-        }
+//        for (int i = 0; i < checkBoxList.size(); i++) {
+//            final int selected = i;
+//            checkBoxList.get(i).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Button thisButton = checkBoxList.get(selected);
+//                    CharSequence buttonText = thisButton.getText();
+//                    Toast.makeText(SettingsActivity.this, "You've selected " + buttonText, Toast.LENGTH_SHORT).show();
+//                    thisButton.setBackgroundColor(Color.GREEN);
+//
+//                    //settings.setPressed(true);
+//                    settings.setSettingName(buttonText.toString());
+//                    settings.setPosition(selected);
+//
+//                    SettingsClass.populateWithData(db, settings);
+//                }
+//            });
+//        }
 
 
         btnBack = (Button) findViewById(R.id.btn_back);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(SettingsActivity.this,"Your Settings is saved!", Toast.LENGTH_LONG).show();
+                for (CheckBox level: checkBoxList){
+                    if(level.isChecked()) {
+                        Settings settings = new Settings();
+                        settings.setPressed(true);
+                        settings.setSettingName(level.getText().toString());
+                        SettingsClass.populateWithData(db, settings);
+                    }
+                    else if (!level.isChecked()){
+                        Settings settings = new Settings();
+                        settings.setPressed(false);
+                        settings.setSettingName(level.getText().toString());
+                        SettingsClass.populateWithData(db, settings);
+                    }
+
+                }
+
+
                 Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
+
+        btnClear = (Button) findViewById(R.id.btn_clear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Clean the Database
+                SettingsClass.deleteAll(db);
+            }
+        });
+
 
 
     }
@@ -83,64 +113,66 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void getDataFromDatabase() {
 
+        // TODO: Fix the bug on coloring all the levels from Database
 
-        Executor executor = Executors.newSingleThreadExecutor();
+        String TAG = SettingsActivity.class.getName();
+        List<Settings> dataSaved;
+        dataSaved = SettingsClass.getAllSettings(db);
 
-        executor.execute(() -> {
-            // Getting the Database current saved info
-            List<Settings> dataSaved = new ArrayList<>();
-            dataSaved = db.settingsInterface().getAllSettings();
+        if(dataSaved.size() == 0)
+        {
+            return;
+        }
+        else {
 
-            // if its empty just return
-            if(dataSaved.size() == 0)
-            {
-                return;
-            }
-
-            // Iterating the Settings and setting them green to indicate to user that they are enabled
-            for(int i = 0; i<dataSaved.size(); i++)
-            {
+            for(int i = 0; i < dataSaved.size(); i++) {
                 Settings currentSetting = dataSaved.get(i);
-                if(currentSetting.getSettingName() == buttonList.get(currentSetting.getPosition()).getText())
+                Log.d(TAG, "Rows count "+ dataSaved.size());
+                Log.d(TAG, "Data is: " + dataSaved.get(0).getPosition());
+
+                for(int j = 0; j < checkBoxList.size(); j++)
                 {
-                    buttonList.get(currentSetting.getPosition()).setBackgroundColor(Color.GREEN);
+                    if(dataSaved.get(i).getSettingName() == checkBoxList.get(j).getText());
+                    {
+                        if(dataSaved.get(i).getPressed())
+                        {
+                            checkBoxList.get(j).setBackgroundColor(Color.GREEN);
+                        }
+
+                    }
                 }
-
-            }
-        });
-
-
-
+           }
+        }
     }
     private void populateList() {
 
         // Generating the References for each button
-        Button x1 = (Button) findViewById(R.id.btn_mul1);
-        Button x2 = (Button) findViewById(R.id.btn_mul2);
-        Button x3 = (Button) findViewById(R.id.btn_mul3);
-        Button x4 = (Button) findViewById(R.id.btn_mul4);
-        Button x5 = (Button) findViewById(R.id.btn_mul5);
-        Button x6 = (Button) findViewById(R.id.btn_mul6);
-        Button x7 = (Button) findViewById(R.id.btn_mul7);
-        Button x8 = (Button) findViewById(R.id.btn_mul8);
-        Button x9 = (Button) findViewById(R.id.btn_mul9);
-        Button x10 = (Button) findViewById(R.id.btn_mul10);
-        Button x11 = (Button) findViewById(R.id.btn_mul11);
-        Button x12 = (Button) findViewById(R.id.btn_mul12);
+        CheckBox x1 = (CheckBox) findViewById(R.id.btn_mul1);
+        CheckBox x2 = (CheckBox) findViewById(R.id.btn_mul2);
+        CheckBox x3 = (CheckBox) findViewById(R.id.btn_mul3);
+        CheckBox x4 = (CheckBox) findViewById(R.id.btn_mul4);
+        CheckBox x5 = (CheckBox) findViewById(R.id.btn_mul5);
+        CheckBox x6 = (CheckBox) findViewById(R.id.btn_mul6);
+        CheckBox x7 = (CheckBox) findViewById(R.id.btn_mul7);
+        CheckBox x8 = (CheckBox) findViewById(R.id.btn_mul8);
+        CheckBox x9 = (CheckBox) findViewById(R.id.btn_mul9);
+        CheckBox x10 = (CheckBox) findViewById(R.id.btn_mul10);
+        CheckBox x11 = (CheckBox) findViewById(R.id.btn_mul11);
+        CheckBox x12 = (CheckBox) findViewById(R.id.btn_mul12);
 
         // Adding the buttons to the list
-        buttonList.add(x1);
-        buttonList.add(x2);
-        buttonList.add(x3);
-        buttonList.add(x4);
-        buttonList.add(x5);
-        buttonList.add(x6);
-        buttonList.add(x7);
-        buttonList.add(x8);
-        buttonList.add(x9);
-        buttonList.add(x10);
-        buttonList.add(x11);
-        buttonList.add(x12);
+        checkBoxList.add(x1);
+        checkBoxList.add(x2);
+        checkBoxList.add(x3);
+        checkBoxList.add(x4);
+        checkBoxList.add(x5);
+        checkBoxList.add(x6);
+        checkBoxList.add(x7);
+        checkBoxList.add(x8);
+        checkBoxList.add(x9);
+        checkBoxList.add(x10);
+        checkBoxList.add(x11);
+        checkBoxList.add(x12);
     }
 }
 

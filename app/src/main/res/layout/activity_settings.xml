@@ -12,58 +12,56 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="14dp"
         android:text="@string/tables"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="185dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_back"
+        android:layout_height="117dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="46dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_tables">
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x1"
                 android:textAllCaps="false" />
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x2"
                 android:textAllCaps="false" />
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x3"
                 android:textAllCaps="false" />
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x4"
                 android:textAllCaps="false" />
 
@@ -73,32 +71,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x5"
                 android:textAllCaps="false" />
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x6"
 
                 android:textAllCaps="false" />
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x7"
                 android:textAllCaps="false" />
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x8"
                 android:textAllCaps="false" />
         </TableRow>
@@ -107,31 +109,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x9"
                 android:textAllCaps="false" />
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x10"
                 android:textAllCaps="false" />
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x11"
                 android:textAllCaps="false" />
 
-            <Button
+            <CheckBox
                 android:id="@+id/btn_mul12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:text="@string/x12"
                 android:textAllCaps="false" />
         </TableRow>
@@ -143,11 +149,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginBottom="43dp"
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="45dp"
+        android:text="@string/clear_settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="101dp"
+        android:text="@string/select_difficulty"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

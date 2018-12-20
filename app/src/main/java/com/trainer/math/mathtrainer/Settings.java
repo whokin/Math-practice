@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Settings {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "multiplication_table")

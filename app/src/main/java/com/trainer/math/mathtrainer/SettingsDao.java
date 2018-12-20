@@ -8,7 +8,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 @Dao
-public interface SettingsInterface {
+public interface SettingsDao {
 
     @Query("SELECT * FROM Settings")
     List<Settings> getAllSettings();
@@ -22,6 +22,9 @@ public interface SettingsInterface {
 
     @Delete
     void delete(Settings entry);
+
+    @Query("DELETE FROM Settings")
+    void deleteAll();
 
 
 }
