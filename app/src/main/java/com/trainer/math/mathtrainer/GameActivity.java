@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,34 +30,37 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        randX =  new Random().nextInt(((12-2)+1) + 2);
-        randY =  new Random().nextInt(((12-2)+1) + 2);
-        equation = new Equation(randX, randY);
-
 
         // Populate references for elements
         populateReference();
 
         // Display the question
-        questionDisplay();
+        updateQuestion();
+
+        // Listen for data entry in the edit text box
+        etxtAnswer.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        actionId == EditorInfo.IME_ACTION_DONE ||
+                        event != null &&
+                                event.getAction() == KeyEvent.ACTION_DOWN &&
+                                event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    if (event == null || !event.isShiftPressed()) {
+                        validateAnswer();
+
+                        return true; // consume.
+                    }
+                }
+                return false; // pass on to other listeners.
+            }
+        });
 
         // Check the answer on click: green if right, red if wrong
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                equation.multiply();
-                if (etxtAnswer.getText().toString().equals(equation.getStrResult())) {
-                    Toast.makeText(GameActivity.this,
-                            "Correct!",
-                            Toast.LENGTH_SHORT).show();
-                    etxtAnswer.setBackgroundColor(Color.GREEN);
-                }
-                else{
-                    Toast.makeText(GameActivity.this,
-                            "Try again!",
-                            Toast.LENGTH_SHORT).show();
-                    etxtAnswer.setBackgroundColor(Color.RED);
-                }
+                validateAnswer();
             }
         });
 
@@ -79,6 +84,21 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
+    private void validateAnswer() {
+        equation.multiply();
+        if (etxtAnswer.getText().toString().equals(equation.getStrResult())) {
+            Toast.makeText(GameActivity.this,
+                    "Correct!",
+                    Toast.LENGTH_SHORT).show();
+            etxtAnswer.setBackgroundColor(Color.GREEN);
+        } else {
+            Toast.makeText(GameActivity.this,
+                    "Try again!",
+                    Toast.LENGTH_SHORT).show();
+            etxtAnswer.setBackgroundColor(Color.RED);
+        }
+    }
+
     private void questionDisplay() {
         // Displays the question on the text field
         String x = Integer.toString(equation.getX());
@@ -96,9 +116,9 @@ public class GameActivity extends AppCompatActivity {
         btnNextQuestion = findViewById(R.id.btn_new);
     }
 
-    private void updateQuestion(){
-        randX = new Random().nextInt(((12-2)+1) + 2);
-        randY = new Random().nextInt(((12-2)+1) + 2);
+    private void updateQuestion() {
+        randX = new Random().nextInt(12 - 2) + 2;
+        randY = new Random().nextInt(12 - 2) + 2;
         equation = new Equation(randX, randY);
         questionDisplay();
         etxtAnswer.setText("");
